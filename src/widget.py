@@ -24,6 +24,3 @@ def mask_account_card(data: str) -> str:
             f"{card_number[-4:]}"
         )
         return f"{card_name} {masked_card}"
-
-print(mask_account_card("Visa Platinum 7000792289606361"))  # Visa Platinum 7000 79** **** 6361
-print(mask_account_card("Счет 73654108430135874305"))      # Счет **4305
