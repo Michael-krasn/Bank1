@@ -5,6 +5,7 @@ from typing import Dict, List
 def filter_by_state(banking_operation: List[Dict[str, str]], state="EXECUTED"):
     """функция принимает на вход списик словарей и параметр сортировки,
     возвращает новый отсортированный список по параметру. 'state'"""
+
     return [x for x in banking_operation if x["state"] == state]
 
 
