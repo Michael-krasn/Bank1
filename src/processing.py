@@ -13,7 +13,7 @@ def sort_by_date(
 ) -> List[Dict[str, str]]:
     """Функция принимает на вход список словарей и параметр порядка
     сортировки, возвращает новый список, в котором исходные словари
-    отсортированы по дате"""
+    отсортированы по дате."""
     return sorted(
         banking_operation, key=lambda x: datetime.fromisoformat(x["date"]), reverse=True
     )
