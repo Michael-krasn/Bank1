@@ -21,7 +21,7 @@
 
     # Форматируем в группы по 4 символа с пробелами
     formatted_mask = " ".join(
-        [masked_part[i : i + 4] for i in range(0, len(masked_part), 4)]
+        [masked_part[i:i + 4] for i in range(0, len(masked_part), 4)]
     )
 
     return formatted_mask
