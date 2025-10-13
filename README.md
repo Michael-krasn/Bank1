@@ -3,7 +3,32 @@
 Разширить функционал банковских операций.
 ## Установка ##
 1.Клонируйте [проект](https://github.com/Michael-krasn/Bank1/tree/main/src)
-2.установите все зависимости
+2.Клонируйте проект:
+
+bash
+git clone https://github.com/Michael-krasn/Bank1/tree/main/src
+Установите Poetry (если еще не установлен):
+
+bash
+curl -sSL https://install.python-poetry.org | python3 -
+Перейдите в директорию проекта:
+
+bash
+cd путь/к/проекту
+Активируйте виртуальное окружение:
+
+bash
+poetry shell
+Установите зависимости проекта:
+
+bash
+poetry install
+
+Обновить все зависимости:
+
+bash
+poetry update
+
 ## Использование ##
 В проекте есть несколько функции, реализующих разные фичи
 * filter_by_state, функция сортирует операции по статусу
