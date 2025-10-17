@@ -16,5 +16,6 @@ def sort_by_date(
     сортировки, возвращает новый список, в котором исходные словари
     отсортированы по дате."""
     return sorted(
-        banking_operation, key=lambda x: datetime.fromisoformat(x["date"]), reverse=True
+        banking_operation, key=lambda x: 
+        datetime.fromisoformat(x["date"]), reverse=True
     )
