@@ -10,16 +10,18 @@
     if not cleaning_number_card.isdigit():
         raise ValueError("Номер карты должен состоять только из цифр")
 
-    # Проверяем длину заполненных данных на соответствие количеству цифр в номере карты
+    # Проверяем длину заполненных данных на 
+    #соответствие количеству цифр в номере карты
     if len(cleaning_number_card) != 16:
         raise ValueError("Номер карты должен содержать 16 цифр")
 
         # Создаем маску
-    masked_part = cleaning_number_card[:6] + "**" + "*" * 4 + cleaning_number_card[-4:]
+    masked_part = (cleaning_number_card[:6] + 
+                   "**" + "*" * 4 + cleaning_number_card[-4:])
 
     # Форматируем в группы по 4 символа с пробелами
     formatted_mask = " ".join(
-        [masked_part[i : i + 4] for i in range(0, len(masked_part), 4)]
+        [masked_part[i:i + 4] for i in range(0, len(masked_part), 4)]
     )
 
     return formatted_mask
@@ -38,7 +40,8 @@ def get_mask_account(account_number: str) -> str:
     if not account_number.isdigit():
         raise ValueError("Номер счета может содержать только цифры")
 
-    # Проверяем длинну заполненных данных на соответствие колчеству цифр в номере карты.
+    # Проверяем длинну заполненных данных на 
+    #соответствие колчеству цифр в номере карты.
     if len(account_number) != 20:
         raise ValueError("Номер счета должен содержать 20 цифр")
 
