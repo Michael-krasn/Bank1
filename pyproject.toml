@@ -19,28 +19,32 @@ isort = ">=6.0.1,<7.0.0"
 mypy = ">=1.18.2,<2.0.0"
 
 [tool.mypy]
-disallow_untyped_defs = true  # запрещает определение функций без аннотаций типов
-no_implicit_optional = true   # запрещает использование None в качестве типа, если параметр не объявлен как Optional
-warn_return_any = true        # включает предупреждения, когда функция возвращает тип Any
-exclude = "venv"             # исключает директорию виртуального окружения из проверки
+disallow_untyped_defs = true
+no_implicit_optional = true
+warn_return_any = true
+exclude = "venv"
 
 [tool.isort]
-line_length = 119  # максимальная длина строки
+line_length = 119
 
 [tool.black]
-line-length = 119  # Максимальная длина строки
+line-length = 119
 exclude = '''
 (
     /(
-        \.eggs         # Исключить несколько общих каталогов
-      | \.git          # в корне проекта
-      | \.hg
-      | \.mypy_cache
-      | \.tox
-      | \.venv
+        \\.eggs
+      | \\.git
+      | \\.hg
+      | \\.mypy_cache
+      | \\.tox
+      | \\.venv
       | dist
     )/
-    | foo.py          # Также отдельно исключить файл с именем foo.py
-                     # в корне проекта
+    | foo.py
 )
 '''
+
+[tool.flake8]
+max-line-length = 119
+ignore = "E203, W503"
+exclude = ".git, __pycache__, venv, .venv"

@@ -1,21 +1,38 @@
 from datetime import datetime
-from typing import Dict, List
+from typing import Any, Dict, List, Optional
 
 
-def filter_by_state(banking_operation: List[Dict[str, str]], state="EXECUTED"):
-    """функция принимает на вход списик словарей и параметр сортировки,
-    возвращает новый отсортированный список по параметру. 'state'"""
+def filter_by_state(
+    data: List[Dict[str, str]],
+    state: Optional[str] = None
+) -> List[Dict[str, str]]:
 
-    return [x for x in banking_operation if x["state"] == state]
+    # Проверяем, если state None, устанавливаем значение по умолчанию
+    if state is None:
+        state = 'EXECUTED'
+
+    # Добавляем отладку
+    print(f"Фильтруем по состоянию: {state}")
+
+    # Фильтрация с дополнительной проверкой
+    return [
+        item
+        for item in data
+        if item.get('state') is not None and item.get('state') == state
+    ]
 
 
 def sort_by_date(
-    banking_operation: List[Dict[str, str]], reverse: bool = True
-) -> List[Dict[str, str]]:
-    """Функция принимает на вход список словарей и параметр порядка
-    сортировки, возвращает новый список, в котором исходные словари
-    отсортированы по дате."""
-    return sorted(
-        banking_operation, key=lambda x: 
-        datetime.fromisoformat(x["date"]), reverse=True
-    )
+    data: List[Dict[str, Any]],  # Список словарей с данными операций
+    reverse: bool = False  # Флаг сортировки (по умолчанию - по возрастанию)
+) -> List[Dict[str, Any]]:  # Возвращаем отсортированный список словарей
+    try:
+        return sorted(
+            data,
+            key=lambda x: datetime.fromisoformat(x["date"]),
+            reverse=reverse
+        )
+    except KeyError:
+        raise ValueError("В данных отсутствует поле 'date'")
+    except ValueError as ve:
+        raise ValueError(f"Ошибка формата даты: {str(ve)}")
