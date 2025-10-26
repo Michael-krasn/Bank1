@@ -47,11 +47,31 @@ Visa Platinum 7000 79** **** 6361  # выход функции
 Счет 73654108430135874305  # входной аргумент
 Счет **4305  # выход функции
 
+# Модуль generators
+
+Модуль generators содержит функции-генераторы для работы с транзакциями и генерации номеров карт.
+
+## Функции
+
+### 1. filter_by_currency(transactions, currency)
+Фильтрует список транзакций по коду валюты и возвращает итератор.
+
+Пример:
+```python
+from generators import filter_by_currency
+
+transactions = [
+    {"operationAmount": {"currency": {"code": "USD"}}},
+    {"operationAmount": {"currency": {"code": "EUR"}}},
+]
+
+usd_tx = filter_by_currency(transactions, "USD")
+for tx in usd_tx:
+    print(tx)
+```
 ## Обновление ##
 
-Была добавлена функция тестирования кода. 
-Для запуска тестирования кода в терминале необходимо ввести pytest --cov
-Данная операция выведет ошибки, а также процент тестирования кода в директории
+Была добавлена функция generators
 
 
 ## Автор ##
