@@ -1,7 +1,9 @@
-from typing import Any, Dict, List
 import builtins as blt
+from typing import Any, Dict, List
+
 import pytest
-from generators import filter_by_currency, transaction_descriptions, card_number_generator
+
+from generators import card_number_generator, filter_by_currency, transaction_descriptions
 
 
 @pytest.fixture
@@ -43,14 +45,22 @@ def sample_transactions() -> List[Dict[str, Any]]:
 
 # ---------- Тесты для filter_by_currency ----------
 
-def test_filter_by_currency_usd(sample_transactions: List[Dict[str, Any]]) -> None:
-    result_list: List[Dict[str, Any]] = blt.list(filter_by_currency(sample_transactions, "USD"))
+def test_filter_by_currency_usd(
+        sample_transactions: List[Dict[str, Any]])\
+        -> None:
+    result_list: List[Dict[str, Any]] = blt.list(
+        filter_by_currency(sample_transactions, "USD"))
     assert len(result_list) == 2
-    assert all(tx["operationAmount"]["currency"]["code"] == "USD" for tx in result_list)
+    assert all(
+        tx["operationAmount"]["currency"]["code"] == "USD"
+        for tx in result_list)
 
 
-def test_filter_by_currency_no_match(sample_transactions: List[Dict[str, Any]]) -> None:
-    result_list: List[Dict[str, Any]] = blt.list(filter_by_currency(sample_transactions, "GBP"))
+def test_filter_by_currency_no_match(
+        sample_transactions:
+        List[Dict[str, Any]]) -> None:
+    result_list: List[Dict[str, Any]] = blt.list(
+        filter_by_currency(sample_transactions, "GBP"))
     assert result_list == []
 
 
@@ -61,27 +71,35 @@ def test_filter_by_currency_empty_list() -> None:
 
 def test_filter_by_currency_missing_keys() -> None:
     transactions: List[Dict[str, Any]] = [{"id": 1}, {"operationAmount": {}}]
-    result_list: List[Dict[str, Any]] = blt.list(filter_by_currency(transactions, "USD"))
+    result_list: List[Dict[str, Any]] = blt.list(
+        filter_by_currency(transactions, "USD"))
     assert result_list == []
 
 
 # ---------- Тесты для transaction_descriptions ----------
 
-def test_transaction_descriptions(sample_transactions: List[Dict[str, Any]]) -> None:
-    descriptions_list: List[str] = list(transaction_descriptions(sample_transactions))
+def test_transaction_descriptions(
+        sample_transactions:
+        List[Dict[str, Any]]) -> None:
+    descriptions_list: List[str] = list(
+        transaction_descriptions(sample_transactions))
     assert descriptions_list == [
         "Перевод организации",
         "Перевод со счета на счет",
         "Оплата услуг",
     ]
 
+
 def test_transaction_descriptions_empty_list() -> None:
-    descriptions_list: List[str] = list(transaction_descriptions([]))
+    descriptions_list: List[str] = list(
+        transaction_descriptions([]))
     assert descriptions_list == []
+
 
 def test_transaction_descriptions_missing_field() -> None:
     tx: List[Dict[str, Any]] = [{"id": 1}, {"description": "Тест"}]
-    descriptions_list: List[str] = list(transaction_descriptions(tx))
+    descriptions_list: List[str] = list(
+        transaction_descriptions(tx))
     assert descriptions_list == ["Тест"]
 
 
@@ -90,7 +108,9 @@ def test_transaction_descriptions_missing_field() -> None:
 @pytest.mark.parametrize(
     "start, end, expected",
     [
-        (1, 3, ["0000 0000 0000 0001", "0000 0000 0000 0002", "0000 0000 0000 0003"]),
+        (1, 3, ["0000 0000 0000 0001",
+                "0000 0000 0000 0002",
+                "0000 0000 0000 0003"]),
         (
             9999999999999997,
             9999999999999999,
@@ -102,7 +122,9 @@ def test_transaction_descriptions_missing_field() -> None:
         ),
     ],
 )
-def test_card_number_generator_valid(start: int, end: int, expected: List[str]) -> None:
+def test_card_number_generator_valid(
+        start: int, end: int, expected: List[str])\
+        -> None:
     result_list: List[str] = blt.list(card_number_generator(start, end))
     assert result_list == expected
 
