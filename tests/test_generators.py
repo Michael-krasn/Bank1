@@ -3,8 +3,7 @@ from typing import Any, Dict, List
 
 import pytest
 
-from generators import (card_number_generator,
-                        filter_by_currency,
+from generators import (card_number_generator, filter_by_currency,
                         transaction_descriptions)
 
 
