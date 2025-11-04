@@ -45,7 +45,7 @@ exclude = '''
 )
 '''
 
-[tool.flake8]
+[flake8]
 max-line-length = 79
 extend-ignore = ["E203", "W503"]
 exclude = [
@@ -57,3 +57,4 @@ exclude = [
     "dist/"
 ]
 select = ["E", "F", "W", "B", "C4"]
+
