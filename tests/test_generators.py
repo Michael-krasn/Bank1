@@ -1,10 +1,13 @@
 import builtins as blt
 from typing import Any, Dict, List
-
 import pytest
 
-from generators import (card_number_generator, filter_by_currency,
-                        transaction_descriptions)
+# Явный импорт из пакета src
+from src.generators import (
+    card_number_generator,
+    filter_by_currency,
+    transaction_descriptions
+)
 
 
 @pytest.fixture
