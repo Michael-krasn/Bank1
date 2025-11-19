@@ -8,6 +8,8 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.13"
 pytest = "^8.4.2"
+requests = "^2.32.5"
+python-dotenv = "^1.2.1"
 
 [build-system]
 requires = ["poetry-core"]
@@ -58,4 +60,3 @@ exclude = [
     "dist/"
 ]
 select = ["E", "F", "W", "B", "C4"]
-
