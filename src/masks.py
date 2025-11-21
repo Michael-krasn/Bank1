@@ -1,50 +1,43 @@
-﻿def get_mask_card_number(card_number: str) -> str:
-    """Маскируем данные карты по формату -
-    первые 6 и последние 4 цифры видны, остальные закрыты. ****
-    Формат: XXXX XX** **** XXXX"""
+﻿from .logging_config import get_logger
 
-    # Удаляем все пробелы из входных данных
+logger = get_logger("masks")
+
+
+def get_mask_card_number(card_number: str) -> str:
     cleaning_number_card = card_number.replace(" ", "")
 
-    # Проверяем строку на содержание букв
     if not cleaning_number_card.isdigit():
+        logger.error("Номер карты содержит недопустимые символы: %s", card_number)
         raise ValueError("Номер карты должен состоять только из цифр")
 
-    # Проверяем длину заполненных данных на соответствие
-    # количеству цифр в номере карты
     if len(cleaning_number_card) != 16:
+        logger.error("Некорректная длина номера карты: %s", card_number)
         raise ValueError("Номер карты должен содержать 16 цифр")
 
-        # Создаем маску
-    masked_part = (cleaning_number_card[:6] +
-                   "**" + "*" * 4 + cleaning_number_card[-4:])
-
-    # Форматируем в группы по 4 символа с пробелами
+    masked_part = cleaning_number_card[:6] + "*" * 6 + cleaning_number_card[-4:]
     formatted_mask = " ".join(
         [masked_part[i:i + 4] for i in range(0, len(masked_part), 4)]
     )
 
+    logger.info("Номер карты успешно замаскирован: %s", formatted_mask)
     return formatted_mask
 
 
 def get_mask_account(account_number: str) -> str:
-    """ " Маскирует номер счета, отображая только последние 4 цифры.
-    Формат: Ввод: 12049104570157075645
-            Вывод: **7075"""
+    """Маскирует номер счета, отображая только последние 4 цифры с маской '**' перед ними."""
 
-    # Проверяем заполненность поля.
     if not account_number:
+        logger.error("Пустой номер счета")
         raise ValueError("Номер счета не может быть пустым")
 
-    # Проверяем на наличие символов кроме цифр.
     if not account_number.isdigit():
+        logger.error("Номер счета содержит недопустимые символы: %s", account_number)
         raise ValueError("Номер счета может содержать только цифры")
 
-    # Проверяем длинну заполненных данных на
-    # соответствие колчеству цифр в номере карты.
     if len(account_number) != 20:
+        logger.error("Некорректная длина номера счета: %s", account_number)
         raise ValueError("Номер счета должен содержать 20 цифр")
 
-    masked_account = f"**{account_number[-4:]}"
-
+    masked_account = f"**{account_number[-4:]}"  # добавляем две звёздочки перед последними 4 цифрами
+    logger.info("Номер счета успешно замаскирован: %s", masked_account)
     return masked_account
