@@ -1,6 +1,8 @@
 import unittest
 from unittest.mock import Mock, patch
+
 import requests
+
 from src.external_api import get_rub_amount
 
 
