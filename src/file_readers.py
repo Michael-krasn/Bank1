@@ -1,45 +1,40 @@
 import csv
+from typing import List, Dict, Any
+import openpyxl
 import os
-from typing import Any, Dict, List
 
-from openpyxl import load_workbook
-
-# Пути к файлам
-DATA_DIR = "data"
+DATA_DIR = os.path.join(os.getcwd(), "data")
 CSV_FILE = os.path.join(DATA_DIR, "transactions.csv")
 XLSX_FILE = os.path.join(DATA_DIR, "transactions_excel.xlsx")
 
 
-def read_transactions_from_csv() -> List[Dict[str, Any]]:
+def read_transactions_from_csv(path: str) -> List[Dict[str, str]]:
     """
-    Чтение финансовых операций из CSV-файла (data/transactions.csv)
-    список словарей с транзакциями
+    Читает CSV-файл и возвращает список словарей транзакций.
+    CSV использует разделитель ';'
     """
-    transactions: List[Dict[str, Any]] = []
+    transactions: List[Dict[str, str]] = []
 
-    # DictReader сам использует запятую как разделитель по умолчанию
-    with open(CSV_FILE, newline='', encoding='utf-8') as f:
-        reader = csv.DictReader(f)
+    with open(path, "r", encoding="utf-8") as f:
+        reader = csv.DictReader(f, delimiter=";")
         for row in reader:
             transactions.append(dict(row))
 
     return transactions
 
 
-def read_transactions_from_excel() -> List[Dict[str, Any]]:
+def read_transactions_from_excel(path: str) -> List[Dict[str, Any]]:
     """
-    Чтение финансовых операций из Excel-файла (data/transactions_excel.xlsx)
-    список словарей с транзакциями
+    Читает Excel-файл (xlsx) и возвращает список словарей транзакций.
     """
-    workbook = load_workbook(filename=XLSX_FILE)
-    sheet = workbook.active
+    wb = openpyxl.load_workbook(path)
+    ws = wb.active
 
-    # Заголовки из первой строки
-    headers: List[str] = [cell.value for cell in next(sheet.iter_rows(min_row=1, max_row=1))]  # type: ignore
-
+    rows = list(ws.values)
+    headers = rows[0]
     transactions: List[Dict[str, Any]] = []
-    for row in sheet.iter_rows(min_row=2, values_only=True):
-        entry: Dict[str, Any] = {headers[i]: row[i] for i in range(len(headers))}
-        transactions.append(entry)
+
+    for row in rows[1:]:
+        transactions.append(dict(zip(headers, row)))
 
     return transactions
